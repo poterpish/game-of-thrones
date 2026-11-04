@@ -10,7 +10,7 @@ public final class CampaignConsole {
     public CampaignConsole(ConsoleIO console, CampaignState state) { this.console = console; this.state = state; }
     public void run() throws IOException {
         console.println(CampaignView.status(state));
-        console.println("Commands: status, map, help, quit");
+        console.println("Commands: status, map, budget, end, help, quit");
         while (!state.finished()) {
             String line = console.readLine("\n  " + state.player().displayName() + " > ");
             if (line == null) return;
@@ -19,7 +19,9 @@ public final class CampaignConsole {
                 switch (words[0]) {
                     case "status" -> console.println(CampaignView.status(state));
                     case "map" -> console.println(state.map().atlas());
-                    case "help" -> console.println("status: inspect your house   map: show connections   quit: return to menu");
+                    case "budget" -> console.println(new edu.wotfk.economy.EconomyService().forecast(state, state.player()).summary());
+                    case "end" -> { console.println(new edu.wotfk.campaign.TurnService().endRound(state)); console.println(CampaignView.status(state)); }
+                    case "help" -> console.println("status / map / budget: free views   end: settle one round   quit: return to menu");
                     case "quit" -> { return; }
                     default -> console.println("Unknown command. Type help.");
                 }

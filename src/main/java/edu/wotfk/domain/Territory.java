@@ -2,7 +2,8 @@ package edu.wotfk.domain;
 
 import java.util.Objects;
 /** Owner is the single source of truth for political control; null means neutral. */
-public final class Territory {
+public final class Territory implements edu.wotfk.economy.WorldElement {
+    @Override public void accept(edu.wotfk.economy.WorldVisitor visitor) { visitor.visit(this); }
     private final String id;
     private final String name;
     private HouseId owner;

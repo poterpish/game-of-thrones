@@ -1,7 +1,8 @@
 package edu.wotfk.domain;
 
 import java.util.*;
-public final class Army {
+public final class Army implements edu.wotfk.economy.WorldElement {
+    @Override public void accept(edu.wotfk.economy.WorldVisitor visitor) { visitor.visit(this); }
     public static final int CAPACITY = 6;
     private final HouseId owner;
     private String location;
