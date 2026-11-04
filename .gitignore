@@ -1,0 +1,28 @@
+# Generated Java output
+/target/
+/out/
+/build/
+*.class
+*.jar
+*.log
+hs_err_pid*
+
+# Local IDE settings
+/.idea/
+/.vscode/
+*.iml
+*.ipr
+*.iws
+
+# Local environment and credentials
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# OS files and downloaded delivery archives
+.DS_Store
+Thumbs.db
+/day*.zip
+/reports/
