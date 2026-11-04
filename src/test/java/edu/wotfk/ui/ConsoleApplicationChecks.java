@@ -53,7 +53,7 @@ public final class ConsoleApplicationChecks {
     private static void checkControls() throws IOException {
         String output = run("2\n0\n", false);
         require(output.contains("YOUR FIRST VISIT TO THE COUNCIL"), "Missing controls");
-        require(output.contains("NOT YET AVAILABLE"), "Unimplemented features must be identified");
+        require(output.contains("CAMPAIGN:"), "Campaign entry must be explained");
         pass("controls and honest build limits");
     }
 

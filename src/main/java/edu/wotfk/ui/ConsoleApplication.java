@@ -40,6 +40,7 @@ public final class ConsoleApplication {
                 case "2" -> showHelp();
                 case "3" -> showCredits();
                 case "4" -> console.println(new edu.wotfk.data.CsvMapAdapter().load().atlas());
+                case "5" -> startCampaign();
                 case "0" -> {
                     view.showPanel("UNTIL WE MEET AGAIN",
                             "The banners fall silent. The Iron Throne awaits.",
@@ -49,6 +50,25 @@ public final class ConsoleApplication {
                 default -> view.showInvalidCommand();
             }
         }
+    }
+
+    private void startCampaign() throws IOException {
+        console.println("Choose: Stark, Lannister, Targaryen, Baratheon, Greyjoy");
+        edu.wotfk.domain.HouseId house;
+        while (true) {
+            String input = console.readLine("  House (or back): ");
+            if (input == null || input.strip().equalsIgnoreCase("back")) return;
+            try { house = edu.wotfk.domain.HouseId.parse(input); break; }
+            catch (IllegalArgumentException invalid) { console.println(invalid.getMessage()); }
+        }
+        long seed;
+        while (true) {
+            String input = console.readLine("  Seed [20261104]: ");
+            if (input == null) return;
+            try { seed = input.isBlank() ? 20261104L : Long.parseLong(input.strip()); break; }
+            catch (NumberFormatException invalid) { console.println("Seed must be a whole 64-bit number."); }
+        }
+        new CampaignConsole(console, new edu.wotfk.campaign.CampaignDirector().standard(house, seed)).run();
     }
 
     private void showStory() {
@@ -67,7 +87,7 @@ public final class ConsoleApplication {
                         + "Every promise, siege, and betrayal will shape the kingdom that survives.",
                 "",
                 "This is an alternate-history setting for an educational project. "
-                        + "Campaign mechanics are planned, not playable in this first package.");
+                        + "The five houses share one world, but not one path to power.");
     }
 
     private void showHelp() {
@@ -82,11 +102,10 @@ public final class ConsoleApplication {
                 "Leading and trailing spaces are ignored. An empty line or an unknown command "
                         + "shows a hint without closing the application.",
                 "",
-                "CURRENT BUILD: English menu, story, credits, and safe input handling.",
-                "NOT YET AVAILABLE: house selection, map, turns, battles, and diplomacy.",
+                "CAMPAIGN: choose [5], enter a house name and a seed. Type help inside the campaign.",
                 "",
                 "Optional launch flag: --color enables ANSI colors in a compatible console. "
-                        + "Without it, all frames and commands remain available in plain text.");
+                        + "Without it, all text and commands remain available in plain text.");
     }
 
     private void showCredits() {

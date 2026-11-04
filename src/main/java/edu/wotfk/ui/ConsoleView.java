@@ -37,13 +37,14 @@ public final class ConsoleView {
         console.println("  2   Controls      Learn how to navigate");
         console.println("  3   Credits       Meet the development team");
         console.println("  4   Atlas         Inspect the twelve connected territories");
+        console.println("  5   New campaign  Choose your house and raise its banners");
         console.println("  0   Exit          Leave the game");
         console.println();
-        console.println(painted("  Campaign gameplay is coming in later updates.", MUTED));
+        console.println(painted("  Twelve rounds. One crown. Your decisions shape the realm.", MUTED));
     }
 
     public String inputPrompt() {
-        return painted("\n  Choose an option (0-4): ", CYAN);
+        return painted("\n  Choose an option (0-5): ", CYAN);
     }
 
     public void showPanel(String title, String... paragraphs) {
@@ -62,7 +63,7 @@ public final class ConsoleView {
     }
 
     public void showInvalidCommand() {
-        console.println(painted("  [!] Unknown command. Enter a menu number from 0 to 4, then press Enter.", WARNING));
+        console.println(painted("  [!] Unknown command. Enter a menu number from 0 to 5, then press Enter.", WARNING));
         console.println("      Nothing has been changed. Please try again.");
     }
 
