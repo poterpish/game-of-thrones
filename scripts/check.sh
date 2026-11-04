@@ -33,4 +33,4 @@ case "$(uname -s)" in
     MINGW*|MSYS*|CYGWIN*) classpath_separator=";" ;;
 esac
 "$java_command" -cp "target/war-of-the-five-kings.jar${classpath_separator}target/check-classes" \
-    edu.wotfk.ui.ConsoleApplicationChecks
+    edu.wotfk.AllChecks

@@ -1,0 +1,13 @@
+# id;name;legacy owner;garrison;fort;gold;food;reciprocal links (~ is sea)
+WF;Winterfell;S;3;2;2;4;WH,TW
+WH;White Harbor;S;2;1;3;3;WF,TW,~DS
+TW;The Twins;N;2;1;3;4;WF,WH,SG,CR,KL
+CR;Casterly Rock;L;3;2;4;2;LP,TW,KW
+LP;Lannisport;L;2;1;4;2;CR,SG,~PK
+DS;Dragonstone;T;3;2;2;2;~DD,~KL,~WH,~SE
+DD;Duskendale;T;2;1;3;3;~DS,KL,KW
+SE;Storm's End;B;3;2;2;3;KW,~DS
+KW;Kingswood;B;2;1;2;4;SE,CR,KL,DD
+PK;Pyke;G;3;2;2;2;~SG,~LP
+SG;Seagard;G;2;1;3;3;~PK,TW,LP
+KL;King's Landing;N;4;3;5;4;TW,DD,KW,~DS

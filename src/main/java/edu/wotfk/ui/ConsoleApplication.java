@@ -39,6 +39,7 @@ public final class ConsoleApplication {
                 case "1" -> showStory();
                 case "2" -> showHelp();
                 case "3" -> showCredits();
+                case "4" -> console.println(new edu.wotfk.data.CsvMapAdapter().load().atlas());
                 case "0" -> {
                     view.showPanel("UNTIL WE MEET AGAIN",
                             "The banners fall silent. The Iron Throne awaits.",

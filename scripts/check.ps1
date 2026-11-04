@@ -38,7 +38,7 @@ try {
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
     & $javaCommand -cp 'target/war-of-the-five-kings.jar;target/check-classes' `
-        edu.wotfk.ui.ConsoleApplicationChecks
+        edu.wotfk.AllChecks
     $checkExitCode = $LASTEXITCODE
 } finally {
     Pop-Location

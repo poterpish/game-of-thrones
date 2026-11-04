@@ -24,7 +24,7 @@ public final class ConsoleApplicationChecks {
         checkRepeatedSections();
         checkPlainOutput();
         checkColoredOutput();
-        checkFrameWidths();
+        checkMinimalLayout();
         checkLongTextWrapping();
         checkInputFailure();
         checkOriginalConstructor();
@@ -61,7 +61,7 @@ public final class ConsoleApplicationChecks {
         String output = run("3\n0\n", false);
         require(output.contains("Alua and Gaukhar"), "Missing authors");
         require(output.contains("Software Design Patterns"), "Missing course");
-        require(output.contains("Team          Alua and Gaukhar"), "Credits alignment lost");
+        require(output.contains("Team Alua and Gaukhar"), "Missing team credit");
         pass("credits and English author names");
     }
 
@@ -118,9 +118,11 @@ public final class ConsoleApplicationChecks {
         pass("color mode preserves the complete plain-text interface");
     }
 
-    private static void checkFrameWidths() throws IOException {
-        assertFrames(run("1\n2\n3\n0\n", false));
-        pass("all frame rows have the same width");
+    private static void checkMinimalLayout() throws IOException {
+        String output = run("1\n2\n3\n0\n", false);
+        require(!output.contains("+---") && !output.contains("+==="), "No box borders expected");
+        require(output.contains("When you play the game of thrones, you win or you die."), "Missing quote");
+        pass("minimal layout and the selected quote");
     }
 
     private static void checkLongTextWrapping() {
@@ -132,7 +134,7 @@ public final class ConsoleApplicationChecks {
         assertFrames(printed);
         require(printed.chars().filter(character -> character == 'x').count() == 170,
                 "Wrapping must not drop characters from a long word");
-        pass("long paragraphs and tokens remain inside the frame");
+        pass("long paragraphs preserve their text");
     }
 
     private static void checkInputFailure() {

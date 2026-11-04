@@ -39,7 +39,7 @@ public final class Main {
             console.println("Usage: java -jar target/war-of-the-five-kings.jar [--color] [--help]");
             console.println("  --color  Enable optional ANSI colors in a compatible console.");
             console.println("  --help   Show this message without opening the menu.");
-            console.println("Default: English text, ASCII frames, no ANSI color codes.");
+            console.println("Default: English text, minimal layout, no ANSI color codes.");
             return;
         }
 
