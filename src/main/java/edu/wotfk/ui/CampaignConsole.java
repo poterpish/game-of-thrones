@@ -59,6 +59,8 @@ public final class CampaignConsole {
                 + "besiege ID  1 AP, 2 food; wait to weaken forts     lift  Cancel your siege (free)\n"
                 + "attack ID assault|cautious  2 AP, 2 food; victory captures the castle\n"
                 + "journal  Read public world events\n"
+                + "WIN: hold KL for two full rounds and own six territories. Otherwise the council scores round 12.\n"
+                + "COUNCIL: 2 per territory +3 for KL + influence/3 (floor) + reputation/20 (floor). Ties divide the realm.\n"
                 + "end  Complete this round     quit  Return to menu (no save)";
     }
     private static void arguments(String[] words, int count, String usage) {
