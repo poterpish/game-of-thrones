@@ -4,6 +4,8 @@ import edu.wotfk.domain.*;
 import java.util.*;
 /** Mutable session aggregate, owned by services. Views must not expose hidden balances. */
 public final class CampaignState {
+    private final edu.wotfk.diplomacy.DiplomacyState diplomacy = new edu.wotfk.diplomacy.DiplomacyState();
+    public edu.wotfk.diplomacy.DiplomacyState diplomacy() { return diplomacy; }
     private final WorldMap map;
     private final EnumMap<HouseId, HouseState> houses;
     private final HouseId player;

@@ -7,6 +7,8 @@ public final class AllChecks {
         String[] suites = {
                 "edu.wotfk.campaign.CampaignChecks",
                 "edu.wotfk.data.MapChecks",
+                "edu.wotfk.economy.EconomyChecks",
+                "edu.wotfk.game.ActionChecks",
                 "edu.wotfk.ui.ConsoleApplicationChecks"
         };
         for (String suite : suites) {
