@@ -19,7 +19,7 @@ public final class EconomyVisitor implements WorldVisitor {
     }
     @Override public void visit(Army army) {
         if (army.owner() != owner) return;
-        for (Unit unit : army.units()) { goldUpkeep += unit.goldUpkeep(); foodUpkeep += unit.foodUpkeep(); }
+        for (Unit unit : army.effectiveUnits(round)) { goldUpkeep += unit.goldUpkeep(); foodUpkeep += unit.foodUpkeep(); }
         if (winter && !army.units().isEmpty()) foodUpkeep++;
     }
     public EconomyLedger ledger() { return new EconomyLedger(goldIncome, foodIncome, goldUpkeep, foodUpkeep); }

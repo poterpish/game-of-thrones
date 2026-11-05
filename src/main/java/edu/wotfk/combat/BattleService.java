@@ -23,7 +23,9 @@ public final class BattleService {
         if (defender != null) defense += defender.defenseStrength(state.round(), coastal) * (50 + defender.morale()) / 100;
         pay(state, actor, new Cost(0, 2, 0), 2);
         BattleOutcome result = resolver.resolve(attacker.attackStrength(state.round(), coastal), defense, attacker.morale(), attacker.units().size(), defender == null ? 0 : defender.units().size(), strategy, state.random());
-        attacker.lose(result.attackerLosses()); attacker.changeMorale(result.victory() ? 6 : -12);
+        attacker.lose(result.attackerLosses());
+        if (!result.victory()) attacker.exhaustUntil(state.round() + 1);
+        attacker.changeMorale(result.victory() ? 6 : -12);
         if (defender != null) { defender.lose(result.defenderLosses()); defender.changeMorale(result.victory() ? -15 : 8); }
         target.reduceGarrison(result.victory() ? 2 : 1);
         return result;

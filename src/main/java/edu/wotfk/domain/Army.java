@@ -7,6 +7,28 @@ public final class Army implements edu.wotfk.economy.WorldElement {
     private final HouseId owner;
     private String location;
     private int morale;
+    private final Set<String> equipped = new HashSet<>();
+    private int commanderUntil;
+    private int exhaustedUntil;
+    public boolean equipped(String id) { return equipped.contains(id); }
+    public boolean commanded(int round) { return commanderUntil >= round; }
+    public void equip(String id) {
+        if (units.stream().noneMatch(u -> u.id().equals(id)) || !equipped.add(id)) throw new IllegalStateException("No such unequipped unit.");
+    }
+    public void supportUntil(int round) { commanderUntil = Math.max(commanderUntil, round); }
+    public void exhaustUntil(int round) { exhaustedUntil = Math.max(exhaustedUntil, round); }
+    /** Rebuild only the active chain; expired wrappers never remain attached to permanent units. */
+    public List<Unit> effectiveUnits(int round) {
+        List<Unit> result = new ArrayList<>();
+        for (Unit base : units) {
+            Unit current = base;
+            if (equipped.contains(base.id())) current = new edu.wotfk.units.EquippedUnit(current);
+            if (commanderUntil >= round) current = new edu.wotfk.units.CommanderSupportedUnit(current);
+            if (exhaustedUntil >= round) current = new edu.wotfk.units.ExhaustedUnit(current);
+            result.add(current);
+        }
+        return List.copyOf(result);
+    }
     private final List<Unit> units = new ArrayList<>();
     public Army(HouseId owner, String location, int morale) {
         this.owner = Objects.requireNonNull(owner); this.location = Objects.requireNonNull(location);
@@ -28,9 +50,9 @@ public final class Army implements edu.wotfk.economy.WorldElement {
     public int lose(int number) {
         if (number < 0) throw new IllegalArgumentException("Negative losses.");
         int losses = Math.min(number, units.size());
-        for (int i = 0; i < losses; i++) units.remove(units.size() - 1);
+        for (int i = 0; i < losses; i++) { Unit lost = units.remove(units.size() - 1); equipped.remove(lost.id()); }
         return losses;
     }
-    public int attackStrength(int round, boolean coast) { return units.stream().mapToInt(u -> u.attack() + (coast ? u.coastalBonus() : 0)).sum(); }
-    public int defenseStrength(int round, boolean coast) { return units.stream().mapToInt(u -> u.defense() + (coast ? u.coastalBonus() : 0)).sum(); }
+    public int attackStrength(int round, boolean coast) { return effectiveUnits(round).stream().mapToInt(u -> u.attack() + (coast ? u.coastalBonus() : 0)).sum(); }
+    public int defenseStrength(int round, boolean coast) { return effectiveUnits(round).stream().mapToInt(u -> u.defense() + (coast ? u.coastalBonus() : 0)).sum(); }
 }

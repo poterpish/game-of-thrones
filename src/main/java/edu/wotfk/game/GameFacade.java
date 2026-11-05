@@ -39,5 +39,8 @@ public final class GameFacade {
     public ActionResult attack(String id, String tactic) {
         return execute(() -> new edu.wotfk.combat.CombatService().attack(state, state.player(), id, edu.wotfk.combat.BattleStrategies.named(tactic)));
     }
+    public String army() { return new edu.wotfk.units.EquipmentService().overview(state, state.player()); }
+    public ActionResult equip(int unit) { return execute(() -> new edu.wotfk.units.EquipmentService().equip(state, state.player(), unit)); }
+    public ActionResult command() { return execute(() -> new edu.wotfk.units.EquipmentService().command(state, state.player())); }
     public ActionResult endTurn() { return execute(() -> turns.endRound(state)); }
 }

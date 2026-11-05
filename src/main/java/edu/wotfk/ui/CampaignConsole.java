@@ -43,6 +43,9 @@ public final class CampaignConsole {
             case "besiege" -> { arguments(words, 2, "besiege ID"); yield game.besiege(words[1]).toString(); }
             case "lift" -> { arguments(words, 1, "lift"); yield game.liftSiege().toString(); }
             case "attack" -> { arguments(words, 3, "attack ID assault|cautious"); yield game.attack(words[1], words[2]).toString(); }
+            case "army" -> { arguments(words, 1, "army"); yield game.army(); }
+            case "equip" -> { arguments(words, 2, "equip UNIT_NUMBER"); yield game.equip(number(words[1])).toString(); }
+            case "command" -> { arguments(words, 1, "command"); yield game.command().toString(); }
             case "end" -> { arguments(words, 1, "end"); yield game.endTurn().toString(); }
             case "help" -> help();
             default -> "Unknown command. Type help.";
@@ -61,7 +64,13 @@ public final class CampaignConsole {
                 + "journal  Read public world events\n"
                 + "WIN: hold KL for two full rounds and own six territories. Otherwise the council scores round 12.\n"
                 + "COUNCIL: 2 per territory +3 for KL + influence/3 (floor) + reputation/20 (floor). Ties divide the realm.\n"
+                + "army  Inspect troops and effects   equip N  1 AP, 3 gold; +2/+2 and +1 upkeep\n"
+                + "command  1 AP, 2 influence; support your army for current and next round\n"
                 + "end  Complete this round     quit  Return to menu (no save)";
+    }
+    private static int number(String value) {
+        try { return Integer.parseInt(value); }
+        catch (NumberFormatException invalid) { throw new IllegalArgumentException("Enter a whole number within the displayed range."); }
     }
     private static void arguments(String[] words, int count, String usage) {
         if (words.length != count) throw new IllegalArgumentException("Usage: " + usage);

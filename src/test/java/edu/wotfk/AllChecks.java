@@ -11,7 +11,9 @@ public final class AllChecks {
                 "edu.wotfk.combat.CaptureChecks",
                 "edu.wotfk.data.MapChecks",
                 "edu.wotfk.economy.EconomyChecks",
-                "edu.wotfk.ui.ConsoleApplicationChecks"
+                "edu.wotfk.game.ActionChecks",
+                "edu.wotfk.ui.ConsoleApplicationChecks",
+                "edu.wotfk.units.DecoratorChecks"
         };
         for (String suite : suites) {
             System.out.println("\nSUITE: " + suite);
