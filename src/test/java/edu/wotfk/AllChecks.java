@@ -12,6 +12,7 @@ public final class AllChecks {
                 "edu.wotfk.data.MapChecks",
                 "edu.wotfk.economy.EconomyChecks",
                 "edu.wotfk.game.ActionChecks",
+                "edu.wotfk.story.StoryChecks",
                 "edu.wotfk.ui.ConsoleApplicationChecks",
                 "edu.wotfk.units.DecoratorChecks"
         };

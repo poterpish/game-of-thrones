@@ -42,5 +42,7 @@ public final class GameFacade {
     public String army() { return new edu.wotfk.units.EquipmentService().overview(state, state.player()); }
     public ActionResult equip(int unit) { return execute(() -> new edu.wotfk.units.EquipmentService().equip(state, state.player(), unit)); }
     public ActionResult command() { return execute(() -> new edu.wotfk.units.EquipmentService().command(state, state.player())); }
+    public String event() { return new edu.wotfk.story.EventService().describe(state, state.player()); }
+    public ActionResult choose(int number) { return execute(() -> new edu.wotfk.story.EventService().choose(state, state.player(), number)); }
     public ActionResult endTurn() { return execute(() -> turns.endRound(state)); }
 }

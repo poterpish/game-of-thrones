@@ -46,6 +46,8 @@ public final class CampaignConsole {
             case "army" -> { arguments(words, 1, "army"); yield game.army(); }
             case "equip" -> { arguments(words, 2, "equip UNIT_NUMBER"); yield game.equip(number(words[1])).toString(); }
             case "command" -> { arguments(words, 1, "command"); yield game.command().toString(); }
+            case "event" -> { arguments(words, 1, "event"); yield game.event(); }
+            case "choose" -> { arguments(words, 2, "choose NUMBER"); yield game.choose(number(words[1])).toString(); }
             case "end" -> { arguments(words, 1, "end"); yield game.endTurn().toString(); }
             case "help" -> help();
             default -> "Unknown command. Type help.";
@@ -66,6 +68,7 @@ public final class CampaignConsole {
                 + "COUNCIL: 2 per territory +3 for KL + influence/3 (floor) + reputation/20 (floor). Ties divide the realm.\n"
                 + "army  Inspect troops and effects   equip N  1 AP, 3 gold; +2/+2 and +1 upkeep\n"
                 + "command  1 AP, 2 influence; support your army for current and next round\n"
+                + "event / choose N  Resolve a story decision (no AP; stated resource cost)\n"
                 + "end  Complete this round     quit  Return to menu (no save)";
     }
     private static int number(String value) {

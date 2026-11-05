@@ -14,6 +14,12 @@ public final class CampaignState {
     public edu.wotfk.events.NotificationObserver notifications() { return notifications; }
     public edu.wotfk.events.EventTriggerObserver triggers() { return triggers; }
     public java.util.Map<HouseId, edu.wotfk.combat.Siege> sieges() { return sieges; }
+    private final java.util.EnumMap<HouseId, edu.wotfk.story.StoryEvent> pendingEvents = new java.util.EnumMap<>(HouseId.class);
+    private final java.util.Set<String> offeredEvents = new java.util.HashSet<>();
+    private final java.util.Set<String> storyFlags = new java.util.HashSet<>();
+    public java.util.Map<HouseId, edu.wotfk.story.StoryEvent> pendingEvents() { return pendingEvents; }
+    public java.util.Set<String> offeredEvents() { return offeredEvents; }
+    public java.util.Set<String> storyFlags() { return storyFlags; }
     private final WorldMap map;
     private final EnumMap<HouseId, HouseState> houses;
     private final HouseId player;
