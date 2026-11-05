@@ -6,6 +6,8 @@ public final class AllChecks {
     public static void main(String[] args) throws Exception {
         String[] suites = {
                 "edu.wotfk.campaign.CampaignChecks",
+                "edu.wotfk.combat.BattleChecks",
+                "edu.wotfk.combat.CaptureChecks",
                 "edu.wotfk.data.MapChecks",
                 "edu.wotfk.economy.EconomyChecks",
                 "edu.wotfk.game.ActionChecks",

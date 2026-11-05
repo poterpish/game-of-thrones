@@ -6,6 +6,14 @@ import java.util.*;
 public final class CampaignState {
     private final edu.wotfk.diplomacy.DiplomacyState diplomacy = new edu.wotfk.diplomacy.DiplomacyState();
     public edu.wotfk.diplomacy.DiplomacyState diplomacy() { return diplomacy; }
+    private final edu.wotfk.events.WorldEventBus events = new edu.wotfk.events.WorldEventBus();
+    private final edu.wotfk.events.NotificationObserver notifications = new edu.wotfk.events.NotificationObserver();
+    private final edu.wotfk.events.EventTriggerObserver triggers = new edu.wotfk.events.EventTriggerObserver();
+    private final java.util.EnumMap<HouseId, edu.wotfk.combat.Siege> sieges = new java.util.EnumMap<>(HouseId.class);
+    public edu.wotfk.events.WorldEventBus events() { return events; }
+    public edu.wotfk.events.NotificationObserver notifications() { return notifications; }
+    public edu.wotfk.events.EventTriggerObserver triggers() { return triggers; }
+    public java.util.Map<HouseId, edu.wotfk.combat.Siege> sieges() { return sieges; }
     private final WorldMap map;
     private final EnumMap<HouseId, HouseState> houses;
     private final HouseId player;
@@ -19,6 +27,8 @@ public final class CampaignState {
     public CampaignState(WorldMap map, Map<HouseId, HouseState> houses, HouseId player, long seed, int maxRounds) {
         this.map = Objects.requireNonNull(map); this.houses = new EnumMap<>(HouseId.class); this.houses.putAll(houses);
         this.player = Objects.requireNonNull(player); this.seed = seed; this.random = new Random(seed); this.maxRounds = maxRounds;
+        events.subscribe(new edu.wotfk.events.ChronicleObserver(this::log));
+        events.subscribe(notifications); events.subscribe(triggers);
     }
     public WorldMap map() { return map; }
     public Collection<HouseState> houses() { return Collections.unmodifiableCollection(houses.values()); }

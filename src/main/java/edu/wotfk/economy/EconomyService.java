@@ -4,7 +4,8 @@ import edu.wotfk.campaign.CampaignState;
 import edu.wotfk.domain.*;
 public final class EconomyService {
     public EconomyLedger forecast(CampaignState state, HouseId owner) {
-        EconomyVisitor visitor = new EconomyVisitor(owner, state.round(), state.round() >= 7);
+        EconomyVisitor visitor = new EconomyVisitor(owner, state.round(), state.round() >= 7)
+                .excluding(state.sieges().values().stream().map(edu.wotfk.combat.Siege::target).collect(java.util.stream.Collectors.toSet()));
         for (Territory territory : state.map().territories()) territory.accept(visitor);
         for (HouseState house : state.houses()) house.army().accept(visitor);
         return visitor.ledger();

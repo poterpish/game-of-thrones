@@ -7,6 +7,7 @@ public final class TurnService {
     private final EconomyService economy = new EconomyService();
     public String endRound(CampaignState state) {
         if (state.finished()) return "Campaign already finished.";
+        new edu.wotfk.combat.SiegeService().advance(state);
         EconomyLedger playerLedger = economy.forecast(state, state.player());
         for (HouseState house : state.houses()) if (state.alive(house.id())) economy.settle(state, house.id());
         state.log("The council closes round " + state.round() + ".");

@@ -11,7 +11,6 @@ public final class BattleService {
         require(state.map().route(army.location(), target.id()).isPresent(), "Attack an adjacent territory.");
         require(target.owner() != actor, "You already own that territory.");
         require(target.owner() == null || state.diplomacy().atWar(actor, target.owner()), "Declare war first; allied and neutral houses are protected.");
-        ready(state, actor, new Cost(0, 2, 0), 2);
     }
     /** Shared resolution for a field skirmish and a later castle assault. */
     public BattleOutcome fight(CampaignState state, HouseId actor, String id, BattleStrategy strategy, int fortReduction) {

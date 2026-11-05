@@ -12,6 +12,8 @@ public final class Territory implements edu.wotfk.economy.WorldElement {
     private final int goldYield;
     private final int foodYield;
     private int damagedUntil;
+    private int ownerSinceRound;
+    public int ownerSinceRound() { return ownerSinceRound; }
     public Territory(String id, String name, HouseId owner, int garrison, int fort, int goldYield, int foodYield) {
         if (id == null || !id.matches("[A-Z]{2}") || name == null || name.isBlank()) throw new IllegalArgumentException("Invalid territory identity.");
         if (garrison < 0 || garrison > 8 || fort < 0 || fort > 3 || goldYield < 0 || foodYield < 0) throw new IllegalArgumentException("Invalid territory values.");
@@ -35,6 +37,7 @@ public final class Territory implements edu.wotfk.economy.WorldElement {
         if (fort >= 3) throw new IllegalStateException("Fortifications already at capacity.");
         fort++;
     }
-    public void capture(HouseId conqueror) { owner = Objects.requireNonNull(conqueror); garrison = 1; }
+    public void capture(HouseId conqueror) { capture(conqueror, 0); }
+    public void capture(HouseId conqueror, int round) { owner = Objects.requireNonNull(conqueror); ownerSinceRound = round; garrison = 1; }
     public void reduceGarrison(int loss) { if (loss < 0) throw new IllegalArgumentException("Negative loss."); garrison = Math.max(0, garrison - loss); }
 }
