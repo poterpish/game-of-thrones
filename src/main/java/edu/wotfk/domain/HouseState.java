@@ -10,6 +10,9 @@ public final class HouseState {
     private final Scout scout;
     private int reputation;
     private int actions = 3;
+    private int guardUntil;
+    public boolean guarded(int round) { return guardUntil >= round; }
+    public void guardUntil(int round) { guardUntil = Math.max(guardUntil, round); }
     private int serial;
     public HouseState(HouseFactory factory) {
         this.factory = Objects.requireNonNull(factory);

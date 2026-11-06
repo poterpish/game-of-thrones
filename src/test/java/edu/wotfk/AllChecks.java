@@ -13,6 +13,7 @@ public final class AllChecks {
                 "edu.wotfk.diplomacy.DiplomacyChecks",
                 "edu.wotfk.economy.EconomyChecks",
                 "edu.wotfk.game.ActionChecks",
+                "edu.wotfk.intelligence.IntelligenceChecks",
                 "edu.wotfk.story.StoryChecks",
                 "edu.wotfk.ui.ConsoleApplicationChecks",
                 "edu.wotfk.units.DecoratorChecks"

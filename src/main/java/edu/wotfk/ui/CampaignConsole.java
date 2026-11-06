@@ -55,6 +55,10 @@ public final class CampaignConsole {
             case "endorse" -> { arguments(words, 2, "endorse HOUSE"); yield game.endorse(HouseId.parse(words[1])).toString(); }
             case "request" -> { arguments(words, 2, "request HOUSE"); yield game.requestAid(HouseId.parse(words[1])).toString(); }
             case "aid" -> { arguments(words, 2, "aid HOUSE"); yield game.aid(HouseId.parse(words[1])).toString(); }
+            case "inspect" -> { arguments(words, 2, "inspect ID"); yield game.inspect(words[1]); }
+            case "intel" -> { arguments(words, 2, "intel HOUSE"); yield game.intel(HouseId.parse(words[1])); }
+            case "spy" -> { arguments(words, 2, "spy HOUSE"); yield game.spy(HouseId.parse(words[1])).toString(); }
+            case "guard" -> { arguments(words, 1, "guard"); yield game.guard().toString(); }
             case "end" -> { arguments(words, 1, "end"); yield game.endTurn().toString(); }
             case "help" -> help();
             default -> "Unknown command. Type help.";
@@ -82,6 +86,9 @@ public final class CampaignConsole {
                 + "endorse HOUSE  Ask an ally to support you: 1 AP, 5 gold, 3 influence\n"
                 + "request HOUSE  1 AP; wartime aid request     aid HOUSE  1 AP, 4 gold, 2 food\n"
                 + "POLITICAL WIN: hold KL two rounds, influence 10, reputation 50, two endorsing allies.\n"
+                + "inspect ID / intel HOUSE  Read public information or dated reports (free)\n"
+                + "spy HOUSE  1 AP, 2 gold, 1 influence; risky intelligence mission\n"
+                + "guard  1 AP, 2 gold, 1 influence; counterintelligence for current and next round\n"
                 + "end  Complete this round     quit  Return to menu (no save)";
     }
     private static int number(String value) {

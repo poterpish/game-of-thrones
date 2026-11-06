@@ -20,6 +20,8 @@ public final class CampaignState {
     public java.util.Map<HouseId, edu.wotfk.story.StoryEvent> pendingEvents() { return pendingEvents; }
     public java.util.Set<String> offeredEvents() { return offeredEvents; }
     public java.util.Set<String> storyFlags() { return storyFlags; }
+    private final edu.wotfk.intelligence.KnowledgeState knowledge = new edu.wotfk.intelligence.KnowledgeState();
+    public edu.wotfk.intelligence.KnowledgeState knowledge() { return knowledge; }
     private final WorldMap map;
     private final EnumMap<HouseId, HouseState> houses;
     private final HouseId player;

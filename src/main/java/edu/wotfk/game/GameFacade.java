@@ -51,5 +51,9 @@ public final class GameFacade {
     public ActionResult endorse(HouseId target) { return execute(() -> diplomacy.requestEndorsement(state,state.player(),target)); }
     public ActionResult requestAid(HouseId target) { return execute(() -> diplomacy.requestAid(state,state.player(),target)); }
     public ActionResult aid(HouseId target) { return execute(() -> diplomacy.giveAid(state,state.player(),target)); }
+    public String inspect(String id) { return new edu.wotfk.intelligence.IntelligenceService().inspect(state,state.player(),id); }
+    public String intel(HouseId target) { return new edu.wotfk.intelligence.IntelligenceService().report(state,state.player(),target); }
+    public ActionResult spy(HouseId target) { return execute(() -> new edu.wotfk.intelligence.IntelligenceService().spy(state,state.player(),target)); }
+    public ActionResult guard() { return execute(() -> new edu.wotfk.intelligence.IntelligenceService().counterintelligence(state,state.player())); }
     public ActionResult endTurn() { return execute(() -> turns.endRound(state)); }
 }
