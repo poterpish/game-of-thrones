@@ -17,6 +17,7 @@ public final class TurnService {
             new edu.wotfk.diplomacy.DiplomacyService().answerAiRequest(state,id); ai.play(state, id);
         }
         new edu.wotfk.diplomacy.DiplomacyService().expireRequests(state);
+        new edu.wotfk.intrigue.FeastService().resolveDue(state);
         new SiegeService().advance(state);
         EconomyLedger playerLedger = economy.forecast(state, state.player());
         for (HouseState house : state.houses()) if (state.alive(house.id())) economy.settle(state, house.id());

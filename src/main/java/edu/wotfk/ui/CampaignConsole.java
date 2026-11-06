@@ -59,6 +59,11 @@ public final class CampaignConsole {
             case "intel" -> { arguments(words, 2, "intel HOUSE"); yield game.intel(HouseId.parse(words[1])); }
             case "spy" -> { arguments(words, 2, "spy HOUSE"); yield game.spy(HouseId.parse(words[1])).toString(); }
             case "guard" -> { arguments(words, 1, "guard"); yield game.guard().toString(); }
+            case "feasts" -> { arguments(words, 1, "feasts"); yield game.feasts(); }
+            case "feast" -> { arguments(words, 2, "feast HOUSE"); yield game.feast(HouseId.parse(words[1])).toString(); }
+            case "accept" -> { arguments(words, 2, "accept FEAST_ID"); yield game.accept(number(words[1])).toString(); }
+            case "decline" -> { arguments(words, 2, "decline FEAST_ID"); yield game.decline(number(words[1])).toString(); }
+            case "cancel" -> { arguments(words, 2, "cancel FEAST_ID"); yield game.cancelFeast(number(words[1])).toString(); }
             case "end" -> { arguments(words, 1, "end"); yield game.endTurn().toString(); }
             case "help" -> help();
             default -> "Unknown command. Type help.";
@@ -89,6 +94,9 @@ public final class CampaignConsole {
                 + "inspect ID / intel HOUSE  Read public information or dated reports (free)\n"
                 + "spy HOUSE  1 AP, 2 gold, 1 influence; risky intelligence mission\n"
                 + "guard  1 AP, 2 gold, 1 influence; counterintelligence for current and next round\n"
+                + "feasts  Review invitations   feast HOUSE  1 AP, 2 gold/2 food/2 influence; trusted ally/truce required\n"
+                + "accept ID  1 food, no AP; travel separately   decline ID  free   cancel ID  host cancels for 1 AP\n"
+                + "A peaceful feast gives both houses +2 influence/+8 morale/+3 reputation and +20 mutual trust.\n"
                 + "end  Complete this round     quit  Return to menu (no save)";
     }
     private static int number(String value) {

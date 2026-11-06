@@ -22,6 +22,10 @@ public final class CampaignState {
     public java.util.Set<String> storyFlags() { return storyFlags; }
     private final edu.wotfk.intelligence.KnowledgeState knowledge = new edu.wotfk.intelligence.KnowledgeState();
     public edu.wotfk.intelligence.KnowledgeState knowledge() { return knowledge; }
+    private final java.util.List<edu.wotfk.intrigue.Feast> feasts = new java.util.ArrayList<>();
+    private int feastSerial;
+    public java.util.List<edu.wotfk.intrigue.Feast> feasts() { return feasts; }
+    public int nextFeastId() { return ++feastSerial; }
     private final WorldMap map;
     private final EnumMap<HouseId, HouseState> houses;
     private final HouseId player;

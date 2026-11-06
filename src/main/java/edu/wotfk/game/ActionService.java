@@ -19,7 +19,7 @@ public final class ActionService {
         HouseState house = state.house(actor); Army army = house.army(); Territory target = state.map().territory(destination);
         require(!army.units().isEmpty(), "Recruit troops before marching.");
         WorldMap.Route route = state.map().route(army.location(), target.id()).orElseThrow(() -> new IllegalStateException("Destination is not adjacent."));
-        require(target.owner() == actor || state.diplomacy().allied(actor, target.owner()), "March only through your own or allied territory. Attack hostile castles instead.");
+        require(target.owner() == actor || state.diplomacy().allied(actor, target.owner()) || new edu.wotfk.intrigue.FeastService().canVisit(state, actor, target.id()), "March only through your own or allied territory. Attack hostile castles instead.");
         int food = route.sea() && actor != HouseId.GREYJOY ? 2 : 1;
         pay(state, actor, new Cost(0, food, 0), 1);
         army.moveTo(target.id()); state.sieges().remove(actor);

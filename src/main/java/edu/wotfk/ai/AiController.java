@@ -12,7 +12,9 @@ public final class AiController {
     private final DiplomacyService diplomacy = new DiplomacyService();
     public void play(CampaignState state, HouseId actor) {
         if (!state.alive(actor) || state.finished()) return;
-        HouseState house = state.house(actor); Set<String> marchedFrom = new HashSet<>();
+        HouseState house = state.house(actor);
+        if (honorFeast(state, actor)) return;
+        Set<String> marchedFrom = new HashSet<>();
         for (int attempt = 0; attempt < 8 && house.actions() > 0; attempt++) {
             int before = house.actions(); Army army = house.army();
             try {
@@ -35,6 +37,37 @@ public final class AiController {
             }
             if (house.actions() == before) break;
         }
+    }
+    private boolean honorFeast(CampaignState state, HouseId actor) {
+        edu.wotfk.intrigue.Feast meeting = state.feasts().stream().filter(f -> f.active() && (f.host()==actor || (f.guest()==actor && f.status()==edu.wotfk.intrigue.Feast.Status.ACCEPTED))).findFirst().orElse(null);
+        if (meeting == null) return false;
+        if (meeting.host()==actor) return true; // A host keeps its army at the promised castle.
+        HouseState house=state.house(actor);
+        while (house.actions()>0 && !house.army().location().equals(meeting.castle())) {
+            try {
+                if (house.resources().food()<2 && house.resources().gold()>=3) { actions.supply(state,actor); continue; }
+                String next = nextMeetingStep(state,actor,meeting.castle());
+                if(next==null)break;
+                actions.move(state,actor,next);
+            } catch(IllegalStateException unavailable) { break; }
+        }
+        return true;
+    }
+    private String nextMeetingStep(CampaignState state,HouseId actor,String goal) {
+        String origin=state.house(actor).army().location();
+        Map<String,String> previous=new LinkedHashMap<>();ArrayDeque<String> queue=new ArrayDeque<>();previous.put(origin,null);queue.add(origin);
+        while(!queue.isEmpty()) {
+            String id=queue.remove(); if(id.equals(goal))break;
+            for(WorldMap.Route route:state.map().routes(id)) {
+                String next=route.destination();HouseId owner=state.map().territory(next).owner();
+                if(!previous.containsKey(next)&&(owner==actor||state.diplomacy().allied(actor,owner)||new edu.wotfk.intrigue.FeastService().canVisit(state,actor,next))) {
+                    previous.put(next,id);queue.add(next);
+                }
+            }
+        }
+        if(!previous.containsKey(goal))return null;
+        String next=goal;while(previous.get(next)!=null&&!previous.get(next).equals(origin))next=previous.get(next);
+        return next.equals(origin)?null:next;
     }
     private boolean tryAttack(CampaignState state, HouseId actor) {
         HouseState house = state.house(actor); Army army = house.army();

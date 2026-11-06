@@ -55,5 +55,10 @@ public final class GameFacade {
     public String intel(HouseId target) { return new edu.wotfk.intelligence.IntelligenceService().report(state,state.player(),target); }
     public ActionResult spy(HouseId target) { return execute(() -> new edu.wotfk.intelligence.IntelligenceService().spy(state,state.player(),target)); }
     public ActionResult guard() { return execute(() -> new edu.wotfk.intelligence.IntelligenceService().counterintelligence(state,state.player())); }
+    public String feasts() { return new edu.wotfk.intrigue.FeastService().overview(state,state.player()); }
+    public ActionResult feast(HouseId guest) { return execute(() -> new edu.wotfk.intrigue.FeastService().invite(state,state.player(),guest)); }
+    public ActionResult accept(int id) { return execute(() -> new edu.wotfk.intrigue.FeastService().accept(state,state.player(),id)); }
+    public ActionResult decline(int id) { return execute(() -> new edu.wotfk.intrigue.FeastService().decline(state,state.player(),id)); }
+    public ActionResult cancelFeast(int id) { return execute(() -> new edu.wotfk.intrigue.FeastService().cancel(state,state.player(),id)); }
     public ActionResult endTurn() { return execute(() -> turns.endRound(state)); }
 }

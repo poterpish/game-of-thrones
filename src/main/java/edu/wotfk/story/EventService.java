@@ -5,7 +5,7 @@ import edu.wotfk.domain.*;
 import java.util.*;
 import static edu.wotfk.game.GameRules.*;
 public final class EventService {
-    private final List<EventCreator> creators = List.of(new WinterEventCreator(), new CouncilEventCreator());
+    private final List<EventCreator> creators = List.of(new FeastEventCreator(), new WinterEventCreator(), new CouncilEventCreator());
     public void offerAll(CampaignState state) { for (HouseId house : HouseId.values()) for (EventCreator creator : creators) creator.offer(state, house); }
     public String describe(CampaignState state, HouseId actor) {
         StoryEvent event = state.pendingEvents().get(actor);
@@ -22,7 +22,9 @@ public final class EventService {
         StoryEvent event = state.pendingEvents().get(actor); if (event == null || !state.alive(actor)) return;
         List<StoryChoice> choices = event.choices();
         // Human defaults never unexpectedly spend scarce resources; AI prefers a useful affordable investment.
-        if (actor != state.player() && state.house(actor).resources().canPay(choices.get(0).cost())) { event.resolve(state, actor, 0); return; }
+        if (actor != state.player() && state.house(actor).resources().canPay(choices.get(0).cost())) {
+            try { event.resolve(state, actor, 0); return; } catch (IllegalStateException obsolete) { /* Try the safe alternative below. */ }
+        }
         for (int i = choices.size()-1; i >= 0; i--) if (state.house(actor).resources().canPay(choices.get(i).cost())) { event.resolve(state, actor, i); return; }
     }
 }
