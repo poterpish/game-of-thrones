@@ -13,7 +13,10 @@ public final class TurnService {
         edu.wotfk.story.EventService stories = new edu.wotfk.story.EventService();
         for (HouseId id : HouseId.values()) stories.resolveAutomatically(state, id);
         AiController ai = new AiController();
-        for (HouseId id : HouseId.values()) if (id != state.player() && state.alive(id)) ai.play(state, id);
+        for (HouseId id : HouseId.values()) if (id != state.player() && state.alive(id)) {
+            new edu.wotfk.diplomacy.DiplomacyService().answerAiRequest(state,id); ai.play(state, id);
+        }
+        new edu.wotfk.diplomacy.DiplomacyService().expireRequests(state);
         new SiegeService().advance(state);
         EconomyLedger playerLedger = economy.forecast(state, state.player());
         for (HouseState house : state.houses()) if (state.alive(house.id())) economy.settle(state, house.id());

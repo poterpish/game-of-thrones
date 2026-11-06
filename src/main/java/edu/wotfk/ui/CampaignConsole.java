@@ -48,6 +48,13 @@ public final class CampaignConsole {
             case "command" -> { arguments(words, 1, "command"); yield game.command().toString(); }
             case "event" -> { arguments(words, 1, "event"); yield game.event(); }
             case "choose" -> { arguments(words, 2, "choose NUMBER"); yield game.choose(number(words[1])).toString(); }
+            case "ally" -> { arguments(words, 3, "ally HOUSE GIFT_GOLD"); yield game.ally(HouseId.parse(words[1]), number(words[2])).toString(); }
+            case "peace" -> { arguments(words, 3, "peace HOUSE GIFT_GOLD"); yield game.peace(HouseId.parse(words[1]), number(words[2])).toString(); }
+            case "break" -> { arguments(words, 2, "break HOUSE"); yield game.breakAlliance(HouseId.parse(words[1])).toString(); }
+            case "betray" -> { arguments(words, 2, "betray HOUSE"); yield game.betray(HouseId.parse(words[1])).toString(); }
+            case "endorse" -> { arguments(words, 2, "endorse HOUSE"); yield game.endorse(HouseId.parse(words[1])).toString(); }
+            case "request" -> { arguments(words, 2, "request HOUSE"); yield game.requestAid(HouseId.parse(words[1])).toString(); }
+            case "aid" -> { arguments(words, 2, "aid HOUSE"); yield game.aid(HouseId.parse(words[1])).toString(); }
             case "end" -> { arguments(words, 1, "end"); yield game.endTurn().toString(); }
             case "help" -> help();
             default -> "Unknown command. Type help.";
@@ -65,10 +72,16 @@ public final class CampaignConsole {
                 + "attack ID assault|cautious  2 AP, 2 food; victory captures the castle\n"
                 + "journal  Read public world events\n"
                 + "WIN: hold KL for two full rounds and own six territories. Otherwise the council scores round 12.\n"
-                + "COUNCIL: 2 per territory +3 for KL + influence/3 (floor) + reputation/20 (floor). Ties divide the realm.\n"
+                + "COUNCIL: 2 per territory +3 for KL + influence/3 (floor) + reputation/20 (floor) + endorsing allies. Ties divide the realm.\n"
                 + "army  Inspect troops and effects   equip N  1 AP, 3 gold; +2/+2 and +1 upkeep\n"
                 + "command  1 AP, 2 influence; support your army for current and next round\n"
                 + "event / choose N  Resolve a story decision (no AP; stated resource cost)\n"
+                + "ally/peace HOUSE GIFT  1 AP, 2 influence, gift 0..20 gold; gifts are delivered even on refusal\n"
+                + "break HOUSE  1 AP; ends alliance with penalties and a truce\n"
+                + "betray HOUSE  1 AP, 2 influence; war, -30 reputation, -12 trust with others\n"
+                + "endorse HOUSE  Ask an ally to support you: 1 AP, 5 gold, 3 influence\n"
+                + "request HOUSE  1 AP; wartime aid request     aid HOUSE  1 AP, 4 gold, 2 food\n"
+                + "POLITICAL WIN: hold KL two rounds, influence 10, reputation 50, two endorsing allies.\n"
                 + "end  Complete this round     quit  Return to menu (no save)";
     }
     private static int number(String value) {

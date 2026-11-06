@@ -8,7 +8,9 @@ public final class EconomyService {
                 .excluding(state.sieges().values().stream().map(edu.wotfk.combat.Siege::target).collect(java.util.stream.Collectors.toSet()));
         for (Territory territory : state.map().territories()) territory.accept(visitor);
         for (HouseState house : state.houses()) house.army().accept(visitor);
-        return visitor.ledger();
+        EconomyLedger ledger = visitor.ledger();
+        int trade = (int) java.util.Arrays.stream(HouseId.values()).filter(other -> other != owner && state.alive(other) && state.diplomacy().allied(owner,other)).count();
+        return new EconomyLedger(ledger.goldIncome()+trade, ledger.foodIncome(), ledger.goldUpkeep(), ledger.foodUpkeep());
     }
     /** Only the turn coordinator calls settlement, once per completed round. */
     public EconomyLedger settle(CampaignState state, HouseId owner) {

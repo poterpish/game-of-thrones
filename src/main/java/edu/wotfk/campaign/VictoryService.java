@@ -8,7 +8,7 @@ public final class VictoryService {
         if (!state.alive(house)) return -1;
         HouseState h = state.house(house);
         return 2 * state.map().ownedBy(house).size() + (state.map().territory("KL").owner() == house ? 3 : 0)
-                + h.resources().influence() / 3 + h.reputation() / 20;
+                + h.resources().influence() / 3 + h.reputation() / 20 + state.diplomacy().supporters(state,house);
     }
     public void evaluate(CampaignState state) {
         if (state.finished()) return;
@@ -17,6 +17,12 @@ public final class VictoryService {
         Territory capital = state.map().territory("KL");
         if (capital.owner() != null && state.round() >= capital.ownerSinceRound() + 2 && state.map().ownedBy(capital.owner()).size() >= 6) {
             finish(state, capital.owner(), "military conquest"); return;
+        }
+        if (capital.owner() != null && state.round() >= capital.ownerSinceRound() + 2) {
+            HouseState claimant = state.house(capital.owner());
+            if (claimant.resources().influence() >= 10 && claimant.reputation() >= 50 && state.diplomacy().supporters(state, claimant.id()) >= 2) {
+                finish(state, claimant.id(), "a recognized crown"); return;
+            }
         }
         if (state.round() >= state.maxRounds()) {
             int best = -1; HouseId leader = null; boolean tie = false;

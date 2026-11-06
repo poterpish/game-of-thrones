@@ -44,5 +44,12 @@ public final class GameFacade {
     public ActionResult command() { return execute(() -> new edu.wotfk.units.EquipmentService().command(state, state.player())); }
     public String event() { return new edu.wotfk.story.EventService().describe(state, state.player()); }
     public ActionResult choose(int number) { return execute(() -> new edu.wotfk.story.EventService().choose(state, state.player(), number)); }
+    public ActionResult ally(HouseId target,int gift) { return execute(() -> diplomacy.alliance(state,state.player(),target,gift)); }
+    public ActionResult peace(HouseId target,int gift) { return execute(() -> diplomacy.peace(state,state.player(),target,gift)); }
+    public ActionResult breakAlliance(HouseId target) { return execute(() -> diplomacy.breakAlliance(state,state.player(),target)); }
+    public ActionResult betray(HouseId target) { return execute(() -> diplomacy.betray(state,state.player(),target)); }
+    public ActionResult endorse(HouseId target) { return execute(() -> diplomacy.requestEndorsement(state,state.player(),target)); }
+    public ActionResult requestAid(HouseId target) { return execute(() -> diplomacy.requestAid(state,state.player(),target)); }
+    public ActionResult aid(HouseId target) { return execute(() -> diplomacy.giveAid(state,state.player(),target)); }
     public ActionResult endTurn() { return execute(() -> turns.endRound(state)); }
 }

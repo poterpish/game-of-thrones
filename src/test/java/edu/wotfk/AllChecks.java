@@ -10,6 +10,7 @@ public final class AllChecks {
                 "edu.wotfk.combat.BattleChecks",
                 "edu.wotfk.combat.CaptureChecks",
                 "edu.wotfk.data.MapChecks",
+                "edu.wotfk.diplomacy.DiplomacyChecks",
                 "edu.wotfk.economy.EconomyChecks",
                 "edu.wotfk.game.ActionChecks",
                 "edu.wotfk.story.StoryChecks",
