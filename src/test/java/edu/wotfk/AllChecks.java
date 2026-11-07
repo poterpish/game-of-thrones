@@ -17,6 +17,7 @@ public final class AllChecks {
                 "edu.wotfk.intrigue.ConspiracyChecks",
                 "edu.wotfk.intrigue.FeastChecks",
                 "edu.wotfk.intrigue.WeddingChecks",
+                "edu.wotfk.reporting.BridgeChecks",
                 "edu.wotfk.story.StoryChecks",
                 "edu.wotfk.ui.ConsoleApplicationChecks",
                 "edu.wotfk.units.DecoratorChecks"

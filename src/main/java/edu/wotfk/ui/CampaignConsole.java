@@ -69,6 +69,11 @@ public final class CampaignConsole {
             case "expose" -> { arguments(words, 2, "expose FEAST_ID"); yield game.expose(number(words[1])).toString(); }
             case "plot" -> { arguments(words, 2, "plot FEAST_ID"); yield game.plot(number(words[1])).toString(); }
             case "cancelplot" -> { arguments(words, 2, "cancelplot FEAST_ID"); yield game.abandonPlot(number(words[1])).toString(); }
+            case "report" -> {
+                if(words.length<2||words.length>3)throw new IllegalArgumentException("Usage: report economy|military [console|markdown]");
+                yield game.report(words[1],words.length==3?words[2]:"console");
+            }
+            case "export" -> { arguments(words, 2, "export economy|military"); yield game.export(words[1]).toString(); }
             case "end" -> { arguments(words, 1, "end"); yield game.endTurn().toString(); }
             case "help" -> help();
             default -> "Unknown command. Type help.";
@@ -108,6 +113,8 @@ public final class CampaignConsole {
                 + "plot ID  Host: 1 AP, 3 gold, 2 influence; accepted meeting, at least one round of preparation\n"
                 + "cancelplot ID  Host abandons the plot for 1 AP; honor guest right instead\n"
                 + "A red feast risks failure, enemy evidence, war, reputation loss and delayed backlash.\n"
+                + "report economy|military [console|markdown]  Render a report (free)\n"
+                + "export economy|military  Write a Markdown report into reports/ (free)\n"
                 + "end  Complete this round     quit  Return to menu (no save)";
     }
     private static int number(String value) {
