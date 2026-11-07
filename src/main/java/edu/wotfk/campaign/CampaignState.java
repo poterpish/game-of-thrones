@@ -26,6 +26,10 @@ public final class CampaignState {
     private int feastSerial;
     public java.util.List<edu.wotfk.intrigue.Feast> feasts() { return feasts; }
     public int nextFeastId() { return ++feastSerial; }
+    private final java.util.List<edu.wotfk.story.ScheduledConsequence> consequences = new java.util.ArrayList<>();
+    private int consequenceSerial;
+    public java.util.List<edu.wotfk.story.ScheduledConsequence> consequences() { return consequences; }
+    public int nextConsequenceId() { return ++consequenceSerial; }
     private final WorldMap map;
     private final EnumMap<HouseId, HouseState> houses;
     private final HouseId player;

@@ -10,6 +10,9 @@ public final class Feast {
     private final String castle;
     private final int invitedRound;
     private final int meetingRound;
+    private Conspiracy conspiracy;
+    public Conspiracy conspiracy(){return conspiracy;}
+    public void prepareConspiracy(int round){if(conspiracy!=null)throw new IllegalStateException("A meeting permits one conspiracy preparation.");conspiracy=new Conspiracy(round);}
     private Status status = Status.INVITED;
     public Feast(int id,HouseId host,HouseId guest,String castle,int round){
         this.id=id;this.host=host;this.guest=guest;this.castle=castle;this.invitedRound=round;this.meetingRound=round+2;

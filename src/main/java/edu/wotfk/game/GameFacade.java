@@ -60,5 +60,8 @@ public final class GameFacade {
     public ActionResult accept(int id) { return execute(() -> new edu.wotfk.intrigue.FeastService().accept(state,state.player(),id)); }
     public ActionResult decline(int id) { return execute(() -> new edu.wotfk.intrigue.FeastService().decline(state,state.player(),id)); }
     public ActionResult cancelFeast(int id) { return execute(() -> new edu.wotfk.intrigue.FeastService().cancel(state,state.player(),id)); }
+    public String obligations() { return new edu.wotfk.story.ConsequenceScheduler().overview(state,state.player()) + "\n" + relations(); }
+    public ActionResult loan() { return execute(() -> new edu.wotfk.economy.LoanService().borrow(state,state.player())); }
+    public ActionResult expose(int id) { return execute(() -> new edu.wotfk.intrigue.ConspiracyService().expose(state,state.player(),id)); }
     public ActionResult endTurn() { return execute(() -> turns.endRound(state)); }
 }

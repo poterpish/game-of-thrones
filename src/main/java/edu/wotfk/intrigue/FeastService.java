@@ -71,15 +71,9 @@ public final class FeastService {
         StringBuilder out=new StringBuilder("YOUR FEASTS\n");int count=0;
         for(Feast f:state.feasts())if(f.host()==viewer||f.guest()==viewer){
             count++;out.append("#").append(f.id()).append("  ").append(f.status()).append("  ").append(f.host()).append(" hosts ").append(f.guest()).append(" at ").append(f.castle()).append("  meeting round ").append(f.meetingRound()).append("\n");
+            if(f.host()==viewer&&f.conspiracy()!=null)out.append("  Private plan: ").append(f.conspiracy().status()).append("\n");
+            else if(state.knowledge().hasEvidence(viewer,f.id()))out.append("  Your scouts hold evidence of a conspiracy at this meeting.\n");
         }
         return count==0?"No invitations involve your house.":out.toString();
-    }
-    private void opponent(CampaignState state, HouseId actor, HouseId target) {
-        require(actor != null && target != null,
-                "Choose a valid house.");
-        require(actor != target,
-                "You cannot negotiate with your own house.");
-        require(state.alive(actor) && state.alive(target),
-                "Both houses must be alive.");
     }
 }

@@ -14,6 +14,7 @@ public final class AllChecks {
                 "edu.wotfk.economy.EconomyChecks",
                 "edu.wotfk.game.ActionChecks",
                 "edu.wotfk.intelligence.IntelligenceChecks",
+                "edu.wotfk.intrigue.ConspiracyChecks",
                 "edu.wotfk.intrigue.FeastChecks",
                 "edu.wotfk.story.StoryChecks",
                 "edu.wotfk.ui.ConsoleApplicationChecks",

@@ -64,6 +64,9 @@ public final class CampaignConsole {
             case "accept" -> { arguments(words, 2, "accept FEAST_ID"); yield game.accept(number(words[1])).toString(); }
             case "decline" -> { arguments(words, 2, "decline FEAST_ID"); yield game.decline(number(words[1])).toString(); }
             case "cancel" -> { arguments(words, 2, "cancel FEAST_ID"); yield game.cancelFeast(number(words[1])).toString(); }
+            case "obligations" -> { arguments(words, 1, "obligations"); yield game.obligations(); }
+            case "loan" -> { arguments(words, 1, "loan"); yield game.loan().toString(); }
+            case "expose" -> { arguments(words, 2, "expose FEAST_ID"); yield game.expose(number(words[1])).toString(); }
             case "end" -> { arguments(words, 1, "end"); yield game.endTurn().toString(); }
             case "help" -> help();
             default -> "Unknown command. Type help.";
@@ -97,6 +100,9 @@ public final class CampaignConsole {
                 + "feasts  Review invitations   feast HOUSE  1 AP, 2 gold/2 food/2 influence; trusted ally/truce required\n"
                 + "accept ID  1 food, no AP; travel separately   decline ID  free   cancel ID  host cancels for 1 AP\n"
                 + "A peaceful feast gives both houses +2 influence/+8 morale/+3 reputation and +20 mutual trust.\n"
+                + "loan  1 AP: borrow 12 gold, repay 15 after three rounds; one active debt\n"
+                + "obligations  Review debts, consequences and allied requests\n"
+                + "expose ID  1 AP, 1 influence; evidence from scouting is mandatory\n"
                 + "end  Complete this round     quit  Return to menu (no save)";
     }
     private static int number(String value) {

@@ -16,7 +16,7 @@ public final class IntelligenceService {
             for(Territory territory:state.map().ownedBy(target))garrisons.put(territory.id(),territory.garrison());
             IntelReport report=new IntelReport(target,state.round(),observed.resources().gold(),observed.resources().food(),observed.resources().influence(),observed.army().units().size(),observed.army().morale(),observed.army().location(),garrisons);
             state.knowledge().remember(actor,report);
-            return "Scout succeeded (chance "+chance+"%).\n"+report.describe(state.round());
+            return "Scout succeeded (chance "+chance+"%).\n"+report.describe(state.round())+new edu.wotfk.intrigue.ConspiracyService().discover(state,actor,target);
         }
         boolean detected=state.random().nextInt(100)<35;
         if(detected){state.house(actor).changeReputation(-3);state.diplomacy().between(actor,target).changeTrust(-8);}
@@ -30,7 +30,7 @@ public final class IntelligenceService {
     public String report(CampaignState state,HouseId observer,HouseId target){
         require(observer!=target,"Use status or army for your own exact information.");
         IntelReport report=state.knowledge().report(observer,target);
-        return report==null?"No report on "+target.displayName()+". Use spy HOUSE to gather a dated observation.":report.describe(state.round());
+        return report==null?"No report on "+target.displayName()+". Use spy HOUSE to gather a dated observation.":report.describe(state.round()) + "\nCollected conspiracy evidence IDs: " + state.knowledge().evidence(observer);
     }
     public String inspect(CampaignState state,HouseId observer,String id){
         Territory territory=state.map().territory(id);
@@ -42,14 +42,4 @@ public final class IntelligenceService {
         Integer garrison=report==null?null:report.garrisons().get(territory.id());
         return text+(garrison==null?"\nGarrison unknown. Send a scout to the owning house.":"\nObserved garrison: "+garrison+" in round "+report.observedRound()+"; it may have changed.");
     }
-
-    private void opponent(CampaignState state, HouseId actor, HouseId target) {
-        require(actor != null && target != null,
-                "Choose a valid house.");
-        require(actor != target,
-                "You cannot spy on your own house.");
-        require(state.alive(actor) && state.alive(target),
-                "Both houses must be alive.");
-    }
-
 }

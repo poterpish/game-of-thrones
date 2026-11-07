@@ -21,6 +21,7 @@ public final class TurnService {
         new SiegeService().advance(state);
         EconomyLedger playerLedger = economy.forecast(state, state.player());
         for (HouseState house : state.houses()) if (state.alive(house.id())) economy.settle(state, house.id());
+        new edu.wotfk.story.ConsequenceScheduler().applyDue(state);
         state.log("The council closes round " + state.round() + ".");
         new VictoryService().evaluate(state);
         if (!state.finished()) { state.nextRound(); for (HouseState house : state.houses()) house.resetActions(); stories.offerAll(state); }
