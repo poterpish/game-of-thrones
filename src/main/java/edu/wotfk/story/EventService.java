@@ -21,6 +21,11 @@ public final class EventService {
     public void resolveAutomatically(CampaignState state, HouseId actor) {
         StoryEvent event = state.pendingEvents().get(actor); if (event == null || !state.alive(actor)) return;
         List<StoryChoice> choices = event.choices();
+        if(actor!=state.player()&&event instanceof FeastInvitationEvent invitation){
+            edu.wotfk.intrigue.Feast feast=new edu.wotfk.intrigue.FeastService().find(state,invitation.feastId());
+            boolean credible=state.house(feast.host()).reputation()>=45&&state.diplomacy().between(actor,feast.host()).trust()>=20&&!state.knowledge().hasEvidence(actor,feast.id());
+            if(!credible){event.resolve(state,actor,1);return;}
+        }
         // Human defaults never unexpectedly spend scarce resources; AI prefers a useful affordable investment.
         if (actor != state.player() && state.house(actor).resources().canPay(choices.get(0).cost())) {
             try { event.resolve(state, actor, 0); return; } catch (IllegalStateException obsolete) { /* Try the safe alternative below. */ }

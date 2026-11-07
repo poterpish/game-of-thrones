@@ -23,6 +23,7 @@ public final class EconomyService {
             house.army().changeMorale(-15); house.army().lose(1);
             state.log(owner.displayName() + " loses a detachment to hunger.");
         }
+        new edu.wotfk.combat.ArmyRecoveryService().recover(state,owner);
         return ledger;
     }
 }

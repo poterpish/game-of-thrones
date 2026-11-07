@@ -15,6 +15,9 @@ public final class CaptureService {
             Army defeated = state.house(oldOwner).army();
             if (defeated.location().equals(territory.id())) retreat(state, oldOwner, territory.id());
         }
+        for(HouseState visitor:state.houses())if(visitor.id()!=actor&&visitor.id()!=oldOwner&&visitor.army().location().equals(territory.id())&&!state.diplomacy().allied(actor,visitor.id())){
+            state.log(visitor.id().displayName()+": "+new RetreatService().withdraw(state,visitor.id(),territory.id()));
+        }
         state.events().publish(new TerritoryCaptured(actor, oldOwner, territory.id(), state.round()));
     }
     private void retreat(CampaignState state, HouseId defender, String lostCastle) {

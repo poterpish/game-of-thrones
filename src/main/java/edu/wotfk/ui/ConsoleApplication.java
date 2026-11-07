@@ -54,6 +54,10 @@ public final class ConsoleApplication {
 
     private void startCampaign() throws IOException {
         console.println("Choose: Stark, Lannister, Targaryen, Baratheon, Greyjoy");
+        for(var factory:edu.wotfk.houses.HouseFactories.all().values()){
+            console.println("  "+factory.house().displayName()+"  "+factory.startingResources().summary()+"  Reputation "+factory.startingReputation());
+            console.println("    "+factory.strengths()+" "+factory.weakness());
+        }
         edu.wotfk.domain.HouseId house;
         while (true) {
             String input = console.readLine("  House (or back): ");

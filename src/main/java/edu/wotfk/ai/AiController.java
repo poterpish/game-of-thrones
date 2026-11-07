@@ -13,6 +13,7 @@ public final class AiController {
     public void play(CampaignState state, HouseId actor) {
         if (!state.alive(actor) || state.finished()) return;
         HouseState house = state.house(actor);
+        new PoliticalAi().act(state,actor);
         if (honorFeast(state, actor)) return;
         Set<String> marchedFrom = new HashSet<>();
         for (int attempt = 0; attempt < 8 && house.actions() > 0; attempt++) {
@@ -22,10 +23,11 @@ public final class AiController {
                 if (army.morale() < 45 && house.resources().food() >= 2) { actions.rally(state, actor); continue; }
                 if (army.units().size() < 4 && state.map().territory(army.location()).owner() == actor
                         && !SiegeService.blockaded(state, army.location()) && house.resources().canPay(house.factory().recruitmentCost(UnitType.MILITIA))) {
-                    actions.recruit(state, actor, UnitType.MILITIA); continue;
+                    UnitType type=(actor==HouseId.LANNISTER||actor==HouseId.TARGARYEN)&&house.resources().gold()>12&&house.resources().food()>10&&house.resources().influence()>3?UnitType.GUARD:UnitType.MILITIA;
+                    actions.recruit(state, actor, type); continue;
                 }
                 if (tryAttack(state, actor)) continue;
-                String destination = bestFriendlyStep(state, actor, marchedFrom);
+                String destination = state.sieges().containsKey(actor) ? null : bestFriendlyStep(state, actor, marchedFrom);
                 if (destination != null) {
                     String origin = army.location(); actions.move(state, actor, destination); marchedFrom.add(origin); continue;
                 }
@@ -70,22 +72,28 @@ public final class AiController {
         return next.equals(origin)?null:next;
     }
     private boolean tryAttack(CampaignState state, HouseId actor) {
-        HouseState house = state.house(actor); Army army = house.army();
-        if (army.units().isEmpty() || house.actions() < 2 || house.resources().food() < 2) return false;
-        List<Territory> candidates = state.map().routes(army.location()).stream().map(r -> state.map().territory(r.destination()))
-                .filter(t -> t.owner() != actor && !state.diplomacy().allied(actor, t.owner()))
-                .sorted(Comparator.comparingInt((Territory t) -> t.id().equals("KL") ? 0 : t.owner() == null ? 1 : 2)).toList();
-        for (Territory target : candidates) {
-            int estimate = estimateDefense(state, actor, target);
-            int ownPower = army.attackStrength(state.round(), state.map().coastal(target.id())) * (50 + army.morale()) / 100;
-            if (ownPower * 125 / 100 <= estimate) continue;
-            if (target.owner() != null && !state.diplomacy().atWar(actor, target.owner())) {
-                if (house.actions() < 3 || house.resources().influence() < 2) continue;
-                Relation relation = state.diplomacy().between(actor, target.owner());
-                if (state.round() <= relation.truceUntil()) continue;
-                diplomacy.declareWar(state, actor, target.owner());
+        HouseState house=state.house(actor);Army army=house.army();
+        if(army.units().isEmpty()||house.actions()<1||house.resources().food()<2)return false;
+        List<Territory> candidates=state.map().routes(army.location()).stream().map(r->state.map().territory(r.destination()))
+                .filter(t->t.owner()!=actor&&!state.diplomacy().allied(actor,t.owner()))
+                .sorted(Comparator.comparingInt((Territory t)->t.id().equals("KL")?0:t.owner()==null?1:2)).toList();
+        for(Territory target:candidates){
+            Siege siege=state.sieges().get(actor);
+            int reduction=siege!=null&&siege.target().equals(target.id())?siege.progress()*4:0;
+            int estimate=Math.max(0,estimateDefense(state,actor,target)-reduction);
+            int ownPower=army.attackStrength(state.round(),state.map().coastal(target.id()))*(50+army.morale())/100;
+            boolean needsWar=target.owner()!=null&&!state.diplomacy().atWar(actor,target.owner());
+            if(needsWar){
+                if(house.actions()<3||house.resources().influence()<2||state.round()<=state.diplomacy().between(actor,target.owner()).truceUntil())continue;
             }
-            new CombatService().attack(state, actor, target.id(), ownPower > estimate + 5 ? new CautiousStrategy() : new AssaultStrategy());
+            if(ownPower*125/100<=estimate){
+                if(siege!=null||SiegeService.blockaded(state,target.id()))continue;
+                if(needsWar)diplomacy.declareWar(state,actor,target.owner());
+                new SiegeService().begin(state,actor,target.id());return true;
+            }
+            if(house.actions()<(needsWar?3:2))continue;
+            if(needsWar)diplomacy.declareWar(state,actor,target.owner());
+            new CombatService().attack(state,actor,target.id(),ownPower>estimate+5?new CautiousStrategy():new AssaultStrategy());
             return true;
         }
         return false;

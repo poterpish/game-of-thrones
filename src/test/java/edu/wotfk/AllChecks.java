@@ -5,8 +5,10 @@ public final class AllChecks {
     private AllChecks() { }
     public static void main(String[] args) throws Exception {
         String[] suites = {
+                "edu.wotfk.ai.PoliticalAiChecks",
                 "edu.wotfk.campaign.CampaignChecks",
                 "edu.wotfk.campaign.EndingChecks",
+                "edu.wotfk.campaign.SimulationChecks",
                 "edu.wotfk.combat.BattleChecks",
                 "edu.wotfk.combat.CaptureChecks",
                 "edu.wotfk.data.MapChecks",

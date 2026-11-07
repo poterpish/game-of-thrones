@@ -27,6 +27,7 @@ public final class BattleService {
         if (!result.victory()) attacker.exhaustUntil(state.round() + 1);
         attacker.changeMorale(result.victory() ? 6 : -12);
         if (defender != null) { defender.lose(result.defenderLosses()); defender.changeMorale(result.victory() ? -15 : 8); }
+        new ArmyRecoveryService().recover(state,actor);
         target.reduceGarrison(result.victory() ? 2 : 1);
         return result;
     }
