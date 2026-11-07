@@ -78,4 +78,9 @@ public final class FeastService {
         }
         return count==0?"No invitations involve your house.":out.toString();
     }
+    private void opponent(CampaignState state, HouseId actor, HouseId target) {
+        require(actor != null && target != null, "Choose a valid house.");
+        require(actor != target, "You cannot target your own house.");
+        require(state.alive(actor) && state.alive(target), "Both houses must be alive.");
+    }
 }

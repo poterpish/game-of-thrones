@@ -5,7 +5,7 @@ import edu.wotfk.domain.*;
 import java.util.*;
 import static edu.wotfk.game.GameRules.*;
 public final class EventService {
-    private final List<EventCreator> creators = List.of(new FeastEventCreator(), new WinterEventCreator(), new CouncilEventCreator());
+    private final List<EventCreator> creators = List.of(new FeastEventCreator(), new StarkEventCreator(), new LannisterEventCreator(), new TargaryenEventCreator(), new BaratheonEventCreator(), new GreyjoyEventCreator(), new WinterEventCreator(), new CouncilEventCreator());
     public void offerAll(CampaignState state) { for (HouseId house : HouseId.values()) for (EventCreator creator : creators) creator.offer(state, house); }
     public String describe(CampaignState state, HouseId actor) {
         StoryEvent event = state.pendingEvents().get(actor);

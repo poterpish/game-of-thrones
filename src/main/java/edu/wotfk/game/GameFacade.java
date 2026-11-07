@@ -67,5 +67,7 @@ public final class GameFacade {
     public ActionResult abandonPlot(int id) { return execute(() -> new edu.wotfk.intrigue.ConspiracyService().abandon(state,state.player(),id)); }
     public String report(String type,String format) { return new edu.wotfk.reporting.ReportService().render(state,state.player(),type,format); }
     public ActionResult export(String type) { return execute(() -> new edu.wotfk.reporting.ReportService().export(state,state.player(),type)); }
-    public ActionResult endTurn() { return execute(() -> turns.endRound(state)); }
-}
+    public ActionResult special(String target) { return execute(() -> new edu.wotfk.houses.HouseAbilityService().use(state,state.player(),target)); }
+    public ActionResult endTurn() {
+        return execute(() -> turns.endRound(state));
+    }}

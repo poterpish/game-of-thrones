@@ -42,4 +42,9 @@ public final class IntelligenceService {
         Integer garrison=report==null?null:report.garrisons().get(territory.id());
         return text+(garrison==null?"\nGarrison unknown. Send a scout to the owning house.":"\nObserved garrison: "+garrison+" in round "+report.observedRound()+"; it may have changed.");
     }
+    private void opponent(CampaignState state, HouseId actor, HouseId target) {
+        require(actor != null && target != null, "Choose a valid house.");
+        require(actor != target, "You cannot target your own house.");
+        require(state.alive(actor) && state.alive(target), "Both houses must be alive.");
+    }
 }

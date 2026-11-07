@@ -15,7 +15,7 @@ public final class CampaignConsole {
         while (!game.finished()) {
             String line = console.readLine("\n  " + game.playerName() + " > ");
             if (line == null) return;
-            String[] words = line.strip().toLowerCase(Locale.ROOT).split("\s+");
+            String[] words = line.strip().toLowerCase(Locale.ROOT).split("\\s+");
             if (words.length == 1 && words[0].equals("quit")) return;
             try {
                 console.println(dispatch(words));
@@ -74,6 +74,10 @@ public final class CampaignConsole {
                 yield game.report(words[1],words.length==3?words[2]:"console");
             }
             case "export" -> { arguments(words, 2, "export economy|military"); yield game.export(words[1]).toString(); }
+            case "special" -> {
+                if(words.length>2)throw new IllegalArgumentException("Usage: special [ID only for Greyjoy]");
+                yield game.special(words.length==2?words[1]:null).toString();
+            }
             case "end" -> { arguments(words, 1, "end"); yield game.endTurn().toString(); }
             case "help" -> help();
             default -> "Unknown command. Type help.";
@@ -115,6 +119,8 @@ public final class CampaignConsole {
                 + "A red feast risks failure, enemy evidence, war, reputation loss and delayed backlash.\n"
                 + "report economy|military [console|markdown]  Render a report (free)\n"
                 + "export economy|military  Write a Markdown report into reports/ (free)\n"
+                + "special [ID for Greyjoy]  1 AP, 2 influence; house ability once per three rounds\n"
+                + "Stark: food/morale; Lannister: gold; Targaryen: command; Baratheon: legitimacy; Greyjoy: coastal raid.\n"
                 + "end  Complete this round     quit  Return to menu (no save)";
     }
     private static int number(String value) {

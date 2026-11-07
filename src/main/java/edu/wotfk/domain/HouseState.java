@@ -13,6 +13,9 @@ public final class HouseState {
     private int guardUntil;
     public boolean guarded(int round) { return guardUntil >= round; }
     public void guardUntil(int round) { guardUntil = Math.max(guardUntil, round); }
+    private int nextAbilityRound=1;
+    public int nextAbilityRound(){return nextAbilityRound;}
+    public void abilityUsed(int round){nextAbilityRound=round+3;}
     private int serial;
     public HouseState(HouseFactory factory) {
         this.factory = Objects.requireNonNull(factory);

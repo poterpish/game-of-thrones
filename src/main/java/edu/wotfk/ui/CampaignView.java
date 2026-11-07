@@ -12,6 +12,7 @@ public final class CampaignView {
                 + "\n" + house.resources().summary() + "   Reputation " + house.reputation()
                 + "\nArmy: " + army.units().size() + "/6 at " + state.map().territory(army.location()).name() + "   Morale " + army.morale()
                 + "\nSiege: " + (state.sieges().get(house.id()) == null ? "none" : state.sieges().get(house.id()).target() + " (progress " + state.sieges().get(house.id()).progress() + "/2)")
+                + "\nHouse ability available from round " + house.nextAbilityRound()
                 + "\nLands: " + lands + "\nStrength: " + house.factory().strengths() + "\nRisk: " + house.factory().weakness();
     }
 }
