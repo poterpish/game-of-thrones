@@ -67,6 +67,8 @@ public final class CampaignConsole {
             case "obligations" -> { arguments(words, 1, "obligations"); yield game.obligations(); }
             case "loan" -> { arguments(words, 1, "loan"); yield game.loan().toString(); }
             case "expose" -> { arguments(words, 2, "expose FEAST_ID"); yield game.expose(number(words[1])).toString(); }
+            case "plot" -> { arguments(words, 2, "plot FEAST_ID"); yield game.plot(number(words[1])).toString(); }
+            case "cancelplot" -> { arguments(words, 2, "cancelplot FEAST_ID"); yield game.abandonPlot(number(words[1])).toString(); }
             case "end" -> { arguments(words, 1, "end"); yield game.endTurn().toString(); }
             case "help" -> help();
             default -> "Unknown command. Type help.";
@@ -103,6 +105,9 @@ public final class CampaignConsole {
                 + "loan  1 AP: borrow 12 gold, repay 15 after three rounds; one active debt\n"
                 + "obligations  Review debts, consequences and allied requests\n"
                 + "expose ID  1 AP, 1 influence; evidence from scouting is mandatory\n"
+                + "plot ID  Host: 1 AP, 3 gold, 2 influence; accepted meeting, at least one round of preparation\n"
+                + "cancelplot ID  Host abandons the plot for 1 AP; honor guest right instead\n"
+                + "A red feast risks failure, enemy evidence, war, reputation loss and delayed backlash.\n"
                 + "end  Complete this round     quit  Return to menu (no save)";
     }
     private static int number(String value) {

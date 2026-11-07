@@ -63,5 +63,7 @@ public final class GameFacade {
     public String obligations() { return new edu.wotfk.story.ConsequenceScheduler().overview(state,state.player()) + "\n" + relations(); }
     public ActionResult loan() { return execute(() -> new edu.wotfk.economy.LoanService().borrow(state,state.player())); }
     public ActionResult expose(int id) { return execute(() -> new edu.wotfk.intrigue.ConspiracyService().expose(state,state.player(),id)); }
+    public ActionResult plot(int id) { return execute(() -> new edu.wotfk.intrigue.ConspiracyService().prepare(state,state.player(),id)); }
+    public ActionResult abandonPlot(int id) { return execute(() -> new edu.wotfk.intrigue.ConspiracyService().abandon(state,state.player(),id)); }
     public ActionResult endTurn() { return execute(() -> turns.endRound(state)); }
 }

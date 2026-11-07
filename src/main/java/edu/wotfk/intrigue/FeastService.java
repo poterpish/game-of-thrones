@@ -51,7 +51,8 @@ public final class FeastService {
     public void resolveDue(CampaignState state){
         for(Feast feast:state.feasts())if(feast.active()&&state.round()>=feast.meetingRound()){
             if(!validMeeting(state,feast)){cancelMeeting(state,feast,"A participant failed to arrive, lost the castle, or broke the truce.");continue;}
-            peaceful(state,feast);
+            if(feast.conspiracy()!=null&&feast.conspiracy().prepared())new ConspiracyService().resolveAtMeeting(state,feast);
+            else peaceful(state,feast);
         }
     }
     public void peaceful(CampaignState state,Feast feast){
@@ -61,6 +62,7 @@ public final class FeastService {
         state.events().publish(new WorldNotice("guest-right",state.round(),feast.host(),"Feast #"+feast.id()+" honors guest right: both houses gain influence and morale; trust rises by 20."));
     }
     public void cancelMeeting(CampaignState state,Feast feast,String reason){
+        if(feast.conspiracy()!=null&&feast.conspiracy().prepared())feast.conspiracy().finish(Conspiracy.Status.ABANDONED);
         feast.cancel();clearInvitation(state,feast.guest(),feast.id());
         state.events().publish(new WorldNotice("feast-cancelled",state.round(),feast.host(),"Feast #"+feast.id()+" cancelled. "+reason));
     }
