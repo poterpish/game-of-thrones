@@ -3,10 +3,12 @@ package edu.wotfk.ui;
 import java.io.IOException;
 import java.util.Objects;
 
-/** Coordinates the menu. Future game rules belong in separate game services. */
+/** Coordinates menu input; campaign rules belong to the facade and domain services. */
 public final class ConsoleApplication {
     private final ConsoleIO console;
     private final ConsoleView view;
+    private final String scenario;
+    private final long defaultSeed;
 
     /** Keeps the original entry point available; plain output is the safe default. */
     public ConsoleApplication(ConsoleIO console) {
@@ -14,12 +16,24 @@ public final class ConsoleApplication {
     }
 
     public ConsoleApplication(ConsoleIO console, boolean colorEnabled) {
+        this(console, colorEnabled, null, 20261104L);
+    }
+
+    public ConsoleApplication(ConsoleIO console, boolean colorEnabled, String scenario, long defaultSeed) {
         this.console = Objects.requireNonNull(console, "console");
         this.view = new ConsoleView(console, colorEnabled);
+        this.scenario = scenario;
+        this.defaultSeed = defaultSeed;
     }
 
     public void run() throws IOException {
         view.showBanner();
+        if (scenario != null) {
+            console.println("\n  DEMONSTRATION: " + scenario + "  /  seed " + defaultSeed);
+            console.println("  Preset starting conditions; normal costs, random rolls and victory rules apply.");
+            new CampaignConsole(console, new edu.wotfk.campaign.ScenarioDirector().create(scenario, defaultSeed)).run();
+            return;
+        }
 
         while (true) {
             view.showMenu();
@@ -67,9 +81,9 @@ public final class ConsoleApplication {
         }
         long seed;
         while (true) {
-            String input = console.readLine("  Seed [20261104]: ");
+            String input = console.readLine("  Seed [" + defaultSeed + "]: ");
             if (input == null) return;
-            try { seed = input.isBlank() ? 20261104L : Long.parseLong(input.strip()); break; }
+            try { seed = input.isBlank() ? defaultSeed : Long.parseLong(input.strip()); break; }
             catch (NumberFormatException invalid) { console.println("Seed must be a whole 64-bit number."); }
         }
         new CampaignConsole(console, new edu.wotfk.campaign.CampaignDirector().standard(house, seed)).run();
@@ -101,6 +115,7 @@ public final class ConsoleApplication {
                 "[1] Read the realm's prologue.",
                 "[2] Review these controls.",
                 "[3] View the project credits.",
+                "[4] View the initial atlas. [5] Start a campaign.",
                 "[0] Exit the application.",
                 "",
                 "Leading and trailing spaces are ignored. An empty line or an unknown command "

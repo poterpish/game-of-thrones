@@ -1,0 +1,9 @@
+event
+accept 1
+move TW
+end
+end
+end
+army
+relations
+quit

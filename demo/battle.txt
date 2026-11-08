@@ -1,0 +1,14 @@
+status
+map
+army
+equip 1
+command
+besiege TW
+end
+attack TW cautious
+map
+journal
+report economy console
+report military markdown
+export military
+quit

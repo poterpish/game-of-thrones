@@ -1,0 +1,4 @@
+relations
+endorse Targaryen
+endorse Baratheon
+end

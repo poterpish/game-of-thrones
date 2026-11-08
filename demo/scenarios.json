@@ -1,0 +1,52 @@
+{
+  "battle": {
+    "scenario": "battle",
+    "seed": 0,
+    "input": "battle.txt"
+  },
+  "feast-betrayal": {
+    "scenario": "feast",
+    "seed": 0,
+    "input": "feast-betrayal.txt"
+  },
+  "feast-peace": {
+    "scenario": "feast",
+    "seed": 0,
+    "input": "feast-peace.txt"
+  },
+  "feast-abandon": {
+    "scenario": "feast",
+    "seed": 0,
+    "input": "feast-abandon.txt"
+  },
+  "expose": {
+    "scenario": "expose",
+    "seed": 0,
+    "input": "expose.txt"
+  },
+  "victim": {
+    "scenario": "victim",
+    "seed": 0,
+    "input": "victim.txt"
+  },
+  "council": {
+    "scenario": "council",
+    "seed": 0,
+    "input": "council.txt"
+  },
+  "military": {
+    "scenario": "military",
+    "seed": 0,
+    "input": "military.txt"
+  },
+  "political": {
+    "scenario": "political",
+    "seed": 0,
+    "input": "political.txt"
+  },
+  "feast-failure": {
+    "scenario": "feast",
+    "seed": 3,
+    "input": "feast-failure.txt"
+  }
+}
