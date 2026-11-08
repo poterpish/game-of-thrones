@@ -16,6 +16,7 @@ public final class CampaignConsole {
             String line = console.readLine("\n  " + game.playerName() + " > ");
             if (line == null) return;
             String[] words = line.strip().toLowerCase(Locale.ROOT).split("\\s+");
+            if (line.isBlank()) { console.println("Enter a command, or type help. Nothing has changed."); continue; }
             if (words.length == 1 && words[0].equals("quit")) return;
             try {
                 console.println(dispatch(words));

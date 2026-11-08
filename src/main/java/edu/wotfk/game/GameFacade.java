@@ -69,5 +69,9 @@ public final class GameFacade {
     public ActionResult export(String type) { return execute(() -> new edu.wotfk.reporting.ReportService().export(state,state.player(),type)); }
     public ActionResult special(String target) { return execute(() -> new edu.wotfk.houses.HouseAbilityService().use(state,state.player(),target)); }
     public ActionResult endTurn() {
-        return execute(() -> turns.endRound(state));
-    }}
+        return execute(() -> {
+            GameRules.require(!state.finished(), "Campaign already finished.");
+            return turns.endRound(state);
+        });
+    }
+}

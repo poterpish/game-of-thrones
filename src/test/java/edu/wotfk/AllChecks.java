@@ -6,6 +6,7 @@ public final class AllChecks {
     public static void main(String[] args) throws Exception {
         String[] suites = {
                 "edu.wotfk.ai.PoliticalAiChecks",
+                "edu.wotfk.campaign.ActiveCampaignChecks",
                 "edu.wotfk.campaign.CampaignChecks",
                 "edu.wotfk.campaign.EndingChecks",
                 "edu.wotfk.campaign.SimulationChecks",
@@ -16,6 +17,7 @@ public final class AllChecks {
                 "edu.wotfk.diplomacy.DiplomacyChecks",
                 "edu.wotfk.economy.EconomyChecks",
                 "edu.wotfk.game.ActionChecks",
+                "edu.wotfk.game.IntegrationChecks",
                 "edu.wotfk.intelligence.IntelligenceChecks",
                 "edu.wotfk.intrigue.ConspiracyChecks",
                 "edu.wotfk.intrigue.FeastChecks",
