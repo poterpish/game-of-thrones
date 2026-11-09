@@ -54,7 +54,7 @@ These patterns help separate responsibilities, reduce dependencies between compo
 
 The Java source code is organized into packages based on functionality:
 
-
+```text 
 src/
 ├── main/
 │   └── java/
@@ -73,7 +73,7 @@ src/
 └── test/
     └── java/
         └── edu/wotfk/           # Automated checks
-
+```
 ## 6. How to Run the Game
 
 ### Requirements
