@@ -30,23 +30,18 @@ Each house has its own characteristics, strategic advantages, and story events.
 - **Economy:** gold, food, influence, upkeep, and loans.
 - **Politics:** alliances, peace treaties, endorsements, intelligence, feasts, and conspiracies.
 - **Multiple endings** based on territorial control, political support, or the final Great Council.
-- 
+  
 ## 4. Software Design Patterns
 
-The project was developed around the following 10 design patterns:
+The project was developed around the following 6 design patterns:
 
 | Design Pattern | Application in the Game |
 |---|---|
 | **Builder** | Constructing and configuring campaign scenarios |
-| **Factory Method** | Creating house-specific story events |
 | **Abstract Factory** | Creating related objects associated with different houses |
-| **Adapter** | Integrating map data into the game model |
-| **Bridge** | Separating report functionality from its presentation |
-| **Decorator** | Adding equipment and additional effects to troops |
 | **Facade** | Providing a unified interface for game actions |
 | **Strategy** | Implementing interchangeable battle tactics |
 | **Observer** | Updating game components when world events occur |
-| **Visitor** | Processing economic calculations across game objects |
 
 These patterns help separate responsibilities, reduce dependencies between components, and make the project easier to extend and maintain.
 
