@@ -8,7 +8,7 @@ War of the Five Kings** is a turn-based strategy game inspired by the world of G
 The player takes control of one of five noble houses and competes for power and territory in Westeros.
 The game combines military strategy, resource management, diplomacy, intelligence, and political intrigue. 
 Players must make decisions carefully because their actions can influence future events, relationships between houses, and the outcome of the campaign.
-The main goal of this project is to demonstrate the practical application of 6 software design patterns in a complete Java application.
+The main goal of this project is to demonstrate the practical application of 5 software design patterns in a complete Java application.
 
 ## 2. Playable Houses
 
@@ -33,7 +33,7 @@ Each house has its own characteristics, strategic advantages, and story events.
   
 ## 4. Software Design Patterns
 
-The project was developed around the following 6 design patterns:
+The project was developed around the following 5 design patterns:
 
 | Design Pattern | Application in the Game |
 |---|---|
